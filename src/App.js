@@ -1,23 +1,63 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from 'react';
+import FlagCard from './components/FlagCard';
+import CountrySearch from './components/CountrySearch';
+import  FilterRegion from  "./FilterRegion"
 
 function App() {
+  const[countries, setCountries] = useState([]);
+  const[catchedCountries, setCachedCountries] = useState([]); 
+  const [isLoading, setIsLoading] = useState(true);
+  
+
+  useEffect(() => {
+    if(countries.length < 1){
+      fetchCountries()
+    };
+        }, []);
+
+  const fetchCountries = () => {
+    fetch("https://restcountries.com/v2/all")
+        .then(res => res.json())
+        .then(data => {
+          setCountries(data)
+          setCachedCountries(data)
+          setIsLoading(false)
+        })
+        .catch(err => console.log("Error:", err));
+        }
+
+  const searchCountries = (country) => {
+    const filteredCountries = catchedCountries.filter(c => {
+      return  c.name.toLowerCase().match(country.toLowerCase())
+    })
+    setCountries(filteredCountries)
+    
+  }
+  // filter regions
+  const SearchRegions = (area) => {
+    const filteredRegion = catchedCountries.filter(continent => {
+      return continent.region.toLowerCase().match(area.toLowerCase()) 
+    })
+    setCountries(filteredRegion)
+    fetchCountries()
+  }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="container ">
+        <h2 className=" border-b-2 py-5 text-2xl font-bold  ">
+          Where in the world
+        </h2>
+          
+          <div className="flex justify-between align-center w-full mt-10 ">
+            <CountrySearch searchCountry={searchCountries}/>
+            <FilterRegion RegionFilter={SearchRegions}/>
+          </div>
+         
+      {isLoading ? <h2 className="text-5xl h-screen text-center  mx-auto "> Fetching Countries... </h2>
+      : <div className="  flex flex-col align-center justify-center mx-5 mt-10 md:grid  md:grid-cols-3 md:gap-4">
+        {countries.map(country => (
+          <FlagCard key={country.name} country={country}/>
+        ))}
+      </div>}
     </div>
   );
 }

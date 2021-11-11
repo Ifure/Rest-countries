@@ -4,21 +4,18 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import { ThemeProvider } from './ThemeContext';
 import Background from './Background';
-import Toggle from './ThemeToggle';
+
 import RouterRoute from './Router';
 
 
 ReactDOM.render(
   <React.StrictMode>
-    
+      <Background>
         <ThemeProvider>
-            <Background>
-              
-              <Toggle />
-              <RouterRoute />
-             
-            </Background>
+         
+          <RouterRoute />
         </ThemeProvider>,
+      </Background>,
 
   </React.StrictMode>,
   document.getElementById('root')

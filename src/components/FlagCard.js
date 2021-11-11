@@ -9,7 +9,7 @@ const FlagCard = ({country}) => {
         pathname: `/${country.name}`,
         state: country
       }}>
-        <div className ="w-full rounded overflow-hidden cursor-pointer shadow-lg mb-10 bg-blue-darkElement">
+        <div className ="w-full rounded overflow-hidden cursor-pointer shadow-lg mb-10 bg-white dark:bg-blue-darkElement">
       <img src={country.flag} alt="" className="w-full" />
       <div className="px-7 py-5">
         <div className="font-bold text-black-500 text-xl mb-2">

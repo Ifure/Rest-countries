@@ -40,7 +40,7 @@ function App() {
       return continent.region.toLowerCase().match(area.toLowerCase()) 
     })
     setCountries(filteredRegion)
-    fetchCountries()
+    
   }
   return (
     <div className="container ">
